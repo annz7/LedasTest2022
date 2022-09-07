@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlTypes;
-using NUnit.Framework;
 
 namespace LedasTestCase
 {
@@ -32,6 +29,17 @@ namespace LedasTestCase
             return null;
         }
 
+        public bool PointBelong(Vector3D point)
+        {
+            return PointBelongLine(point)
+                   && point.X <= Math.Max(start.X, end.X)
+                   && point.X >= Math.Min(start.X, end.X)
+                   && point.Y <= Math.Max(start.Y, end.Y)
+                   && point.Y >= Math.Min(start.Y, end.Y)
+                   && point.Z <= Math.Max(start.Z, end.Z)
+                   && point.Z >= Math.Min(start.Z, end.Z);
+        }
+
         private static Vector3D IntersectLines(Segment3D first, Segment3D second)
         {
             if (!Vector3D.IsСoplanar(first.direction, second.direction, first.start - second.start)) return null;
@@ -40,8 +48,7 @@ namespace LedasTestCase
             {
                 if (first.direction.IsNull() && second.PointBelong(first.start)) return first.start;
                 if (second.direction.IsNull() && first.PointBelong(second.start)) return second.start;
-                
-                // in this case the intersection is a segment, therefore return some point from segment  
+
                 if (first.PointBelong(second.start)) return second.start;
                 if (first.PointBelong(second.end)) return second.end;
                 if (second.PointBelong(first.start)) return first.start;
@@ -72,7 +79,7 @@ namespace LedasTestCase
                         b.direction.Z * t + b.start.Z
                     );
                 }
-                
+
                 if (matrix[i].X != 0 && matrix[i].Y == 0)
                 {
                     var k = matrix[i].Z / matrix[i].X;
@@ -91,17 +98,6 @@ namespace LedasTestCase
                 b.direction.Y * t + b.start.Y,
                 b.direction.Z * t + b.start.Z
             );
-        }
-
-        public bool PointBelong(Vector3D point)
-        {
-            return PointBelongLine(point)
-                   && point.X <= Math.Max(start.X, end.X)
-                   && point.X >= Math.Min(start.X, end.X)
-                   && point.Y <= Math.Max(start.Y, end.Y)
-                   && point.Y >= Math.Min(start.Y, end.Y)
-                   && point.Z <= Math.Max(start.Z, end.Z)
-                   && point.Z >= Math.Min(start.Z, end.Z);
         }
 
         private bool PointBelongLine(Vector3D point)

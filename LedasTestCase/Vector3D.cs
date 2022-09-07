@@ -16,27 +16,28 @@ namespace LedasTestCase
             Y = y;
             Z = z;
         }
-        
+
         public override bool Equals(object? obj)
         {
-            if (obj is Vector3D vector) return 
-                Math.Abs(vector.X - X) < Epsilon 
-                && Math.Abs(vector.Y - Y) < Epsilon 
-                && Math.Abs(vector.Z - Z) < Epsilon;
+            if (obj is Vector3D vector)
+                return
+                    Math.Abs(vector.X - X) < Epsilon
+                    && Math.Abs(vector.Y - Y) < Epsilon
+                    && Math.Abs(vector.Z - Z) < Epsilon;
             return false;
         }
 
         public static Vector3D operator +(Vector3D a, Vector3D b)
-            => new Vector3D(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
+            => new(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
 
         public static Vector3D operator -(Vector3D a, Vector3D b)
-            => new Vector3D(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
+            => new(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
 
         public static Vector3D operator *(double a, Vector3D b)
-            => new Vector3D(a * b.X, a * b.Y, a * b.Z);
+            => new(a * b.X, a * b.Y, a * b.Z);
 
         public static Vector3D operator *(Vector3D b, double a)
-            => new Vector3D(a * b.X, a * b.Y, a * b.Z);
+            => new(a * b.X, a * b.Y, a * b.Z);
 
         public bool IsNull() => (X == 0 && Y == 0 && Z == 0);
 
